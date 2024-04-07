@@ -5,6 +5,8 @@ const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+client.cooldowns = new Collection();
+
 //commands handler
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, "commands");
