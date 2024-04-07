@@ -1,14 +1,22 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { token } = require("./config.json");
 const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
+const { token } = require("./config.json");
+const path = require("node:path");
+const fs = require("node:fs");
+const Sequelize = require("sequelize");
+
+const sequelize = new Sequelize("database", "user", "password", {
+  host: "localhost",
+  dialect: "sqlite",
+  loggin: false,
+  storage: "database.sqlite",
+});
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.cooldowns = new Collection();
-
-//commands handler
 client.commands = new Collection();
+
+// COMMANDS HANDLER
 const foldersPath = path.join(__dirname, "commands");
 const commandsFolders = fs.readdirSync(foldersPath);
 for (const folder of commandsFolders) {
@@ -29,7 +37,7 @@ for (const folder of commandsFolders) {
   }
 }
 
-//events handler
+// EVENTS HANDLER
 const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
   .readdirSync(eventsPath)
