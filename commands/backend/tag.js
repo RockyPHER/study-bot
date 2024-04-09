@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
+const { Tags } = require("../../database/models");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("tag").setDescription("fetchs tag"),

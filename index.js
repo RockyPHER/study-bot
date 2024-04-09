@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { token } = require("./config.json");
+const Sequelize = require("sequelize");
 const path = require("node:path");
 const fs = require("node:fs");
 
