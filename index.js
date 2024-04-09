@@ -1,15 +1,7 @@
-const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { token } = require("./config.json");
 const path = require("node:path");
 const fs = require("node:fs");
-const Sequelize = require("sequelize");
-
-const sequelize = new Sequelize("database", "user", "password", {
-  host: "localhost",
-  dialect: "sqlite",
-  loggin: false,
-  storage: "database.sqlite",
-});
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
