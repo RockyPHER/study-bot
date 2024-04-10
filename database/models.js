@@ -13,7 +13,10 @@ const User = sequelize.define("user", {
     unique: true,
     allowNull: false,
   },
-  rank: Sequelize.INTEGER,
+  rank: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
   streak: Sequelize.INTEGER,
   points: Sequelize.INTEGER,
   studies: Sequelize.INTEGER,

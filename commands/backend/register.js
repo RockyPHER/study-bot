@@ -1,48 +1,30 @@
-const {
-  ActionRowBuilder,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  SlashCommandBuilder,
-} = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
+const { User } = require("../../database/models");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("register")
-    .setDescription("opens register modal"),
+    .setDescription("register user"),
   async execute(interaction) {
-    // Create the modal
-    const modal = new ModalBuilder()
-      .setCustomId("myModal")
-      .setTitle("My Modal");
+    try {
+      const user = await User.create({
+        username: interaction.user.username,
+        rank: null,
+        streak: 0,
+        points: 0,
+        studies: 0,
+        summaries: 0,
+        achievements: 0,
+        min_studied: 0,
+        has_reminder: false,
+      });
 
-    // Add components to modal
-
-    // Create the text input components
-    const favoriteColorInput = new TextInputBuilder()
-      .setCustomId("favoriteColorInput")
-      // The label is the prompt the user sees for this input
-      .setLabel("What's your favorite color?")
-      // Short means only a single line of text
-      .setStyle(TextInputStyle.Short);
-
-    const hobbiesInput = new TextInputBuilder()
-      .setCustomId("hobbiesInput")
-      .setLabel("What's some of your favorite hobbies?")
-      // Paragraph means multiple lines of text.
-      .setStyle(TextInputStyle.Paragraph);
-
-    // An action row only holds one text input,
-    // so you need one action row per text input.
-    const firstActionRow = new ActionRowBuilder().addComponents(
-      favoriteColorInput
-    );
-    const secondActionRow = new ActionRowBuilder().addComponents(hobbiesInput);
-
-    // Add inputs to the modal
-    modal.addComponents(firstActionRow, secondActionRow);
-
-    // Show the modal to the user
-    await interaction.showModal(modal);
+      return interaction.reply(`User ${user.username} added. ✅`);
+    } catch (error) {
+      if (error.name === "SequelizeUniqueConstraintError") {
+        return interaction.reply("User already registered! ☑️");
+      }
+      return interaction.reply("Something went wrong with adding a tag. ❌");
+    }
   },
 };
