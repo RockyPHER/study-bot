@@ -1,11 +1,11 @@
 const { Events } = require("discord.js");
-const { Tags } = require("../database/models");
+const { User, Reminder, Goal } = require("../database/models");
 
 module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client) {
-    Tags.sync({ force: true })
+    Promise.all([User.sync(), Reminder.sync(), Goal.sync()])
       .then(
         console.log(`Data base synced!\nReady!\nLogged as ${client.user.tag}`)
       )

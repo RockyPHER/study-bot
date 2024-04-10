@@ -7,18 +7,37 @@ const sequelize = new Sequelize("database", "user", "password", {
   storage: "database.sqlite",
 });
 
-const Tags = sequelize.define("tags", {
-  name: {
+const User = sequelize.define("user", {
+  username: {
     type: Sequelize.STRING,
     unique: true,
-  },
-  description: Sequelize.TEXT,
-  username: Sequelize.STRING,
-  usage_count: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0,
     allowNull: false,
   },
+  rank: Sequelize.INTEGER,
+  streak: Sequelize.INTEGER,
+  points: Sequelize.INTEGER,
+  studies: Sequelize.INTEGER,
+  summaries: Sequelize.INTEGER,
+  achievements: Sequelize.INTEGER,
+  min_studied: Sequelize.INTEGER,
+  has_reminder: Sequelize.BOOLEAN,
 });
 
-module.exports = { Tags };
+const Reminder = sequelize.define("reminder", {
+  userID: Sequelize.INTEGER,
+  study_time: Sequelize.STRING,
+  max_time: Sequelize.INTEGER,
+  is_active: Sequelize.BOOLEAN,
+});
+
+const Goal = sequelize.define("goal", {
+  userID: Sequelize.INTEGER,
+  streak: Sequelize.INTEGER,
+  studies: Sequelize.INTEGER,
+  min_studied: Sequelize.INTEGER,
+  summaries: Sequelize.INTEGER,
+  description: Sequelize.STRING,
+  is_achieved: Sequelize.BOOLEAN,
+});
+
+module.exports = { User, Goal, Reminder };
