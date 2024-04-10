@@ -1,10 +1,11 @@
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { token } = require("./config.json");
-const Sequelize = require("sequelize");
 const path = require("node:path");
 const fs = require("node:fs");
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+});
 
 client.cooldowns = new Collection();
 client.commands = new Collection();
@@ -35,6 +36,7 @@ const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
   .readdirSync(eventsPath)
   .filter((file) => file.endsWith(".js"));
+console.log(`Load ${eventFiles.length} events.`);
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
   const event = require(filePath);
@@ -46,3 +48,5 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
+
+module.exports = { client };
