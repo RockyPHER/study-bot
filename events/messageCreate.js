@@ -1,12 +1,11 @@
 const { Events } = require("discord.js");
-const { client } = require("../index");
 
 module.exports = {
   name: Events.MessageCreate,
   async execute(message) {
-    if (!message.author.bot) {
+    console.log(message.content);
+    if (!message.author.bot && message.content == "test") {
       message.reply("testado!");
-      console.log(message);
     }
   },
 };
