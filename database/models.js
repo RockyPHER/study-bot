@@ -28,7 +28,7 @@ const User = sequelize.define("user", {
 
 const Reminder = sequelize.define("reminder", {
   userID: Sequelize.INTEGER,
-  study_time: Sequelize.STRING,
+  study_time: Sequelize.DATE,
   max_time: Sequelize.INTEGER,
   is_active: Sequelize.BOOLEAN,
 });
